@@ -22,15 +22,16 @@ ans_4 <- sapply(mtcars, class)
 
 
 #5
+mtcars$am<- as.integer(mtcars$am)  
+mtcars$cyl<- as.integer(mtcars$cyl)  
+mtcars$vs<- as.integer(mtcars$vs)  
 newmtc <- mtcars
-newmtc$am<- as.integer(newmtc$am)  
-newmtc$cyl<- as.integer(newmtc$cyl)  
-newmtc$vs<- as.integer(newmtc$vs)  
-ans_5 <- newmtc
+ans_5 <- sapply(newmtc, class)
 
 library(dplyr)
 #6
-ans_6 <- newmtc %>% mutate_at(vars(drat, wt, qsec), funs(round(., 1)))
+ans_6 <- newmtc %>% 
+  mutate_at(vars(drat, wt, qsec), funs(round(., 1)))
 
 
 #7
@@ -96,7 +97,11 @@ ans_18 <- diam750
 ans_19 <- summary(diam750)
 
 #20
-ans_20 <- diam750 %>%
+plot(diam750$depth, diam750$price, xlab="Depth (%)", ylab="Price ($)",
+     main ="Price vs. Depth")
+
+
+diam750 %>%
   ggplot(aes(x = depth, y = price)) +
   labs(title = "Price vs. Depth", x = "Depth (%)", y = "Price ($)") +
   geom_point(size=1, color = "#004753") +
