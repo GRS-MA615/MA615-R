@@ -1,0 +1,93 @@
+---
+title: "tidyhw"
+author: "Danya Zhang"
+date: "2022-10-04"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, results = FALSE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+```
+
+##RDS
+#12.2.1
+2.
+```{r}
+case <- table2 %>% 
+  filter(type == "cases") 
+pop <- table2 %>% 
+  filter(type == "population") 
+rate <- case$count/pop$count*10000
+
+rate1999_4 <- table4a$`1999`/table4b$`1999`*10000
+rate2000_4 <- table4a$`2000`/table4b$`2000`*10000
+
+#table4a and table4b were easier to work with. I didn't have to group
+```
+
+3. 
+```{r}
+ggplot(case, aes(year, count)) + 
+  geom_line(aes(group = country), colour = "grey50") + 
+  geom_point(aes(colour = country)) +
+  theme_bw()
+```
+
+#12.3.3
+1.
+```{r}
+stocks <- tibble(
+  year   = c(2015, 2015, 2016, 2016),
+  half  = c(   1,    2,     1,    2),
+  return = c(1.88, 0.59, 0.92, 0.17)
+)
+stocks %>% 
+  pivot_wider(names_from = year, values_from = return) %>% 
+  pivot_longer(`2015`:`2016`, names_to = "year", values_to = "return")
+#changes year to of type double 
+```
+
+2. 
+```{r}
+table4a %>% 
+  pivot_longer(c(1999, 2000), names_to = "year", values_to = "cases")
+#nonsyntactic variable names
+```
+
+3. 
+```{r}
+people <- tribble(
+  ~name,             ~names,  ~values,
+  #-----------------|--------|------
+  "Phillip Woods",   "age",       45,
+  "Phillip Woods",   "height",   186,
+  "Phillip Woods",   "age",       50,
+  "Jessica Cordero", "age",       37,
+  "Jessica Cordero", "height",   156
+)
+
+people %>%
+  distinct(name, names, .keep_all = TRUE) %>%
+  pivot_wider(names_from="names", values_from = "values")
+#delete duplicate values
+```
+
+4.
+```{r}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",     NA,    10,
+  "no",      20,    12
+)
+
+preg2 <- preg %>%
+  pivot_longer(c(male, female), names_to = "gender", values_to = "count", values_drop_na = TRUE)
+
+```
+
