@@ -30,14 +30,11 @@ ans_5 <- sapply(newmtc, class)
 
 library(dplyr)
 #6
-ans_6 <- newmtc %>% 
-  mutate_at(vars(drat, wt, qsec), funs(round(., 1)))
-
+ans_6 <- round(newmtc, 1)
 
 #7
 ans_7 <- iris %>%
-  filter(Species == "virginica", Sepal.Width > 3.5) %>%
-  select(Sepal.Length:Petal.Width)
+  filter(Species == "virginica", Sepal.Width > 3.5)
 
 #8
 ans_8 <- iris %>%
@@ -53,18 +50,18 @@ data("diamonds")
 
 #10
 ten <- diamonds %>%
-  filter(cut == "Ideal" & carat < 0.21)
-  ans_10 <- nrow(ten)
+  count(cut == "Ideal" & carat < 0.21)
+ans_10 <- unlist(ten[2,2])
 
 #11
 eleven <- diamonds %>%
-  filter((x+y+z) > 40)
-  ans_11 <- nrow(eleven)
+  count((x+y+z) > 40)
+  ans_11 <- unlist(eleven[2,2])
 
 #12
 twelve <- diamonds %>%
-  filter(price > 10 | depth >= 70)
-  ans_12 <- nrow(twelve)
+  count(price > 10000 | depth >= 70)
+  ans_12 <- unlist(twelve[2,2])
 
 #13
 ans_13 <- diamonds[c(67,982),] %>%
